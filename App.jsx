@@ -942,6 +942,34 @@ function TabProgreso({ catalog, sessions, sets }) {
       .sort((a, b) => (a.date < b.date ? -1 : 1))
   }, [selectedId, sessions])
 
+  // Músculo: por sesión, sumar volumen de TODOS los ejercicios de ese grupo
+  const muscleSeries = useMemo(() => {
+    if (!selectedId || mode !== 'muscle') return []
+    const exIds = catalog
+      .filter((e) => e.muscle === selectedId)
+      .map((e) => e.id)
+    const points = []
+    for (const session of sessions) {
+      if (session.kind !== 'strength') continue
+      const relevantSets = sets.filter(
+        (s) => s.sessionId === session.id && exIds.includes(s.exerciseId)
+      )
+      if (relevantSets.length === 0) continue
+      const volumen = relevantSets.reduce(
+        (acc, s) => acc + s.weight * s.reps,
+        0
+      )
+      const exercisesUsed = new Set(relevantSets.map((s) => s.exerciseId)).size
+      points.push({
+        date: session.date,
+        volumen,
+        sets: relevantSets.length,
+        exercises: exercisesUsed,
+      })
+    }
+    return points.sort((a, b) => (a.date < b.date ? -1 : 1))
+  }, [selectedId, mode, sessions, sets, catalog])
+
   const usedExercises = useMemo(() => {
     const ids = [...new Set(sets.map((s) => s.exerciseId))]
     return catalog.filter((e) => ids.includes(e.id))
@@ -963,20 +991,33 @@ function TabProgreso({ catalog, sessions, sets }) {
             setMode('strength')
             setSelectedId(null)
           }}
-          className={`flex-1 py-2 rounded-lg text-sm font-semibold ${
+          className={`flex-1 py-2 rounded-lg text-xs font-semibold ${
             mode === 'strength'
               ? 'bg-emerald-500 text-slate-950'
               : 'bg-slate-900 text-slate-300'
           }`}
         >
-          Fuerza
+          Ejercicio
+        </button>
+        <button
+          onClick={() => {
+            setMode('muscle')
+            setSelectedId(null)
+          }}
+          className={`flex-1 py-2 rounded-lg text-xs font-semibold ${
+            mode === 'muscle'
+              ? 'bg-emerald-500 text-slate-950'
+              : 'bg-slate-900 text-slate-300'
+          }`}
+        >
+          Músculo
         </button>
         <button
           onClick={() => {
             setMode('cardio')
             setSelectedId(null)
           }}
-          className={`flex-1 py-2 rounded-lg text-sm font-semibold ${
+          className={`flex-1 py-2 rounded-lg text-xs font-semibold ${
             mode === 'cardio'
               ? 'bg-emerald-500 text-slate-950'
               : 'bg-slate-900 text-slate-300'
@@ -1032,6 +1073,59 @@ function TabProgreso({ catalog, sessions, sets }) {
           {selectedId && strengthSeries.length === 0 && (
             <div className="text-slate-400 text-sm text-center py-8">
               Sin datos para este ejercicio.
+            </div>
+          )}
+        </>
+      )}
+
+      {mode === 'muscle' && (
+        <>
+          <select
+            value={selectedId || ''}
+            onChange={(e) => setSelectedId(e.target.value || null)}
+            className="w-full bg-slate-900 rounded-xl px-3 py-3"
+          >
+            <option value="">Elegí un músculo...</option>
+            {MUSCLES.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+
+          {selectedId && muscleSeries.length > 0 && (
+            <>
+              <ProgressChart
+                data={muscleSeries}
+                valueKey="volumen"
+                label={`Volumen ${selectedId} (kg)`}
+              />
+              <div className="bg-slate-900 rounded-2xl p-4">
+                <div className="text-xs text-slate-400 uppercase tracking-wide mb-2">
+                  Últimas sesiones
+                </div>
+                {[...muscleSeries].reverse().slice(0, 6).map((p, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center justify-between py-2 border-b border-slate-800 last:border-0 text-sm"
+                  >
+                    <span className="text-slate-400">{fmtDate(p.date)}</span>
+                    <span>
+                      <span className="text-slate-500">
+                        {p.exercises} ej · {p.sets} sets ·{' '}
+                      </span>
+                      <span className="font-semibold text-emerald-400">
+                        {p.volumen} kg
+                      </span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+          {selectedId && muscleSeries.length === 0 && (
+            <div className="text-slate-400 text-sm text-center py-8">
+              Sin datos para {selectedId}.
             </div>
           )}
         </>
