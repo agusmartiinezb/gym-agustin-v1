@@ -1,0 +1,17 @@
+{
+  "name": "Gym Agustín",
+  "short_name": "Gym",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='96' fill='%230f172a'/><text x='50%25' y='50%25' font-family='system-ui,-apple-system,sans-serif' font-size='300' font-weight='800' text-anchor='middle' dominant-baseline='central' fill='%2322c55e'>G</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
