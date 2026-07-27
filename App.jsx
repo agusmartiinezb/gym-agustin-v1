@@ -291,11 +291,12 @@ function StrengthSession({
 }) {
   const [pickerOpen, setPickerOpen] = useState(false)
   const [exerciseOpen, setExerciseOpen] = useState(null) // exerciseId actualmente abierto
+  const [pendingExercises, setPendingExercises] = useState([]) // agregados pero sin sets aún
 
   const sessionSets = sets.filter((s) => s.sessionId === session.id)
 
-  // Ejercicios usados en esta sesión, en orden de primera aparición
-  const exercisesInSession = useMemo(() => {
+  // Ejercicios que ya tienen sets en esta sesión, en orden de primera aparición
+  const exercisesWithSets = useMemo(() => {
     const seen = []
     for (const s of sessionSets) {
       if (!seen.includes(s.exerciseId)) seen.push(s.exerciseId)
@@ -303,8 +304,23 @@ function StrengthSession({
     return seen
   }, [sessionSets])
 
+  // Combinamos: los que ya tienen sets + los pendientes que aún no tienen sets
+  const exercisesInSession = useMemo(() => {
+    const result = [...exercisesWithSets]
+    for (const id of pendingExercises) {
+      if (!result.includes(id)) result.push(id)
+    }
+    return result
+  }, [exercisesWithSets, pendingExercises])
+
   const addExercise = (exerciseId) => {
     setPickerOpen(false)
+    if (
+      !exercisesWithSets.includes(exerciseId) &&
+      !pendingExercises.includes(exerciseId)
+    ) {
+      setPendingExercises([...pendingExercises, exerciseId])
+    }
     setExerciseOpen(exerciseId)
   }
 
