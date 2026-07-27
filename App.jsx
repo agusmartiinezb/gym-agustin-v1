@@ -9,24 +9,77 @@ const STORAGE_KEY = 'gym_v1'
 const MUSCLES = ['Pecho', 'Hombros', 'Tríceps', 'Espalda', 'Bíceps', 'Piernas']
 
 const DEFAULT_EXERCISES = [
-  { id: 'e1', name: 'Press banca', muscle: 'Pecho' },
-  { id: 'e2', name: 'Aperturas', muscle: 'Pecho' },
-  { id: 'e3', name: 'Press militar', muscle: 'Hombros' },
-  { id: 'e4', name: 'Elevaciones laterales', muscle: 'Hombros' },
+  // Pecho
+  { id: 'e1', name: 'Press banca plano con barra', muscle: 'Pecho' },
+  { id: 'e22', name: 'Press banca plano con mancuernas', muscle: 'Pecho' },
+  { id: 'e19', name: 'Press banca inclinado con barra', muscle: 'Pecho' },
+  { id: 'e20', name: 'Press banca inclinado con mancuernas', muscle: 'Pecho' },
+  { id: 'e21', name: 'Press banca declinado', muscle: 'Pecho' },
+  { id: 'e27', name: 'Press en máquina', muscle: 'Pecho' },
+  { id: 'e2', name: 'Aperturas con mancuernas', muscle: 'Pecho' },
+  { id: 'e23', name: 'Aperturas inclinadas con mancuernas', muscle: 'Pecho' },
+  { id: 'e24', name: 'Aperturas en máquina (peck deck)', muscle: 'Pecho' },
+  { id: 'e25', name: 'Cruces en polea alta', muscle: 'Pecho' },
+  { id: 'e26', name: 'Cruces en polea baja', muscle: 'Pecho' },
+
+  // Hombros
+  { id: 'e3', name: 'Press militar con barra', muscle: 'Hombros' },
+  { id: 'e28', name: 'Press militar con mancuernas', muscle: 'Hombros' },
+  { id: 'e29', name: 'Press Arnold', muscle: 'Hombros' },
+  { id: 'e4', name: 'Elevaciones laterales con mancuernas', muscle: 'Hombros' },
+  { id: 'e30', name: 'Elevaciones laterales en polea', muscle: 'Hombros' },
+  { id: 'e31', name: 'Elevaciones frontales', muscle: 'Hombros' },
+  { id: 'e32', name: 'Pájaros (posteriores) con mancuernas', muscle: 'Hombros' },
+  { id: 'e33', name: 'Face pull', muscle: 'Hombros' },
+  { id: 'e34', name: 'Encogimientos (trapecio)', muscle: 'Hombros' },
+
+  // Tríceps
   { id: 'e5', name: 'Fondos en paralelas', muscle: 'Tríceps' },
+  { id: 'e38', name: 'Fondos en banco', muscle: 'Tríceps' },
   { id: 'e6', name: 'Extensión en polea con cuerda', muscle: 'Tríceps' },
-  { id: 'e7', name: 'Dominadas / Jalón al pecho', muscle: 'Espalda' },
+  { id: 'e58', name: 'Extensión en polea con barra', muscle: 'Tríceps' },
+  { id: 'e35', name: 'Press francés', muscle: 'Tríceps' },
+  { id: 'e36', name: 'Copa (extensión con mancuerna arriba)', muscle: 'Tríceps' },
+  { id: 'e37', name: 'Patada de tríceps', muscle: 'Tríceps' },
+
+  // Espalda
+  { id: 'e7', name: 'Dominadas (prono)', muscle: 'Espalda' },
+  { id: 'e39', name: 'Dominadas supino (chin-ups)', muscle: 'Espalda' },
+  { id: 'e10', name: 'Jalón al pecho (agarre ancho)', muscle: 'Espalda' },
+  { id: 'e40', name: 'Jalón agarre cerrado', muscle: 'Espalda' },
   { id: 'e8', name: 'Remo con barra', muscle: 'Espalda' },
-  { id: 'e9', name: 'Remo con mancuernas', muscle: 'Espalda' },
-  { id: 'e10', name: 'Lat pulldown', muscle: 'Espalda' },
+  { id: 'e42', name: 'Remo tipo T', muscle: 'Espalda' },
+  { id: 'e41', name: 'Remo en polea baja', muscle: 'Espalda' },
+  { id: 'e9', name: 'Remo con mancuerna (una mano)', muscle: 'Espalda' },
+  { id: 'e59', name: 'Remo en máquina', muscle: 'Espalda' },
+  { id: 'e43', name: 'Peso muerto convencional', muscle: 'Espalda' },
+  { id: 'e44', name: 'Pull-over', muscle: 'Espalda' },
+
+  // Bíceps
   { id: 'e11', name: 'Curl con barra', muscle: 'Bíceps' },
+  { id: 'e60', name: 'Curl con barra Z', muscle: 'Bíceps' },
+  { id: 'e45', name: 'Curl con mancuernas (alterno)', muscle: 'Bíceps' },
   { id: 'e12', name: 'Curl martillo', muscle: 'Bíceps' },
-  { id: 'e13', name: 'Sentadilla', muscle: 'Piernas' },
+  { id: 'e46', name: 'Curl concentrado', muscle: 'Bíceps' },
+  { id: 'e47', name: 'Curl en banco Scott (predicador)', muscle: 'Bíceps' },
+  { id: 'e48', name: 'Curl en polea', muscle: 'Bíceps' },
+
+  // Piernas
+  { id: 'e13', name: 'Sentadilla libre (con barra)', muscle: 'Piernas' },
+  { id: 'e50', name: 'Sentadilla frontal', muscle: 'Piernas' },
+  { id: 'e49', name: 'Sentadilla búlgara', muscle: 'Piernas' },
   { id: 'e14', name: 'Prensa', muscle: 'Piernas' },
+  { id: 'e51', name: 'Zancadas (lunges)', muscle: 'Piernas' },
   { id: 'e15', name: 'Extensión de cuádriceps', muscle: 'Piernas' },
-  { id: 'e16', name: 'Curl femoral', muscle: 'Piernas' },
+  { id: 'e16', name: 'Curl femoral acostado', muscle: 'Piernas' },
+  { id: 'e53', name: 'Curl femoral sentado', muscle: 'Piernas' },
   { id: 'e17', name: 'Peso muerto rumano', muscle: 'Piernas' },
-  { id: 'e18', name: 'Gemelos', muscle: 'Piernas' },
+  { id: 'e57', name: 'Peso muerto sumo', muscle: 'Piernas' },
+  { id: 'e52', name: 'Hip thrust', muscle: 'Piernas' },
+  { id: 'e55', name: 'Abductores en máquina', muscle: 'Piernas' },
+  { id: 'e56', name: 'Aductores en máquina', muscle: 'Piernas' },
+  { id: 'e18', name: 'Gemelos de pie', muscle: 'Piernas' },
+  { id: 'e54', name: 'Gemelos sentado', muscle: 'Piernas' },
 ]
 
 const CARDIO_TYPES = ['Correr', 'Bicicleta', 'Elíptica', 'Cinta', 'Caminata', 'Escalador', 'Otro']
@@ -89,7 +142,12 @@ export default function App() {
   useEffect(() => {
     const s = loadState()
     if (s) {
-      if (s.catalog) setCatalog(s.catalog)
+      if (s.catalog) {
+        // Merge: agregar ejercicios default que aún no estén en el catálogo del usuario
+        const existingIds = new Set(s.catalog.map((e) => e.id))
+        const newOnes = DEFAULT_EXERCISES.filter((e) => !existingIds.has(e.id))
+        setCatalog(newOnes.length > 0 ? [...s.catalog, ...newOnes] : s.catalog)
+      }
       if (s.sessions) setSessions(s.sessions)
       if (s.sets) setSets(s.sets)
       if (s.activeSessionId) setActiveSessionId(s.activeSessionId)
@@ -291,9 +349,9 @@ function StrengthSession({
 }) {
   const [pickerOpen, setPickerOpen] = useState(false)
   const [exerciseOpen, setExerciseOpen] = useState(null) // exerciseId actualmente abierto
-  const [pendingExercises, setPendingExercises] = useState([]) // agregados pero sin sets aún
 
   const sessionSets = sets.filter((s) => s.sessionId === session.id)
+  const pendingExercises = session.pendingExerciseIds || []
 
   // Ejercicios que ya tienen sets en esta sesión, en orden de primera aparición
   const exercisesWithSets = useMemo(() => {
@@ -313,39 +371,46 @@ function StrengthSession({
     return result
   }, [exercisesWithSets, pendingExercises])
 
+  const updateSession = (patch) => {
+    setSessions(sessions.map((s) => (s.id === session.id ? { ...s, ...patch } : s)))
+  }
+
   const addExercise = (exerciseId) => {
     setPickerOpen(false)
     if (
       !exercisesWithSets.includes(exerciseId) &&
       !pendingExercises.includes(exerciseId)
     ) {
-      setPendingExercises([...pendingExercises, exerciseId])
+      updateSession({ pendingExerciseIds: [...pendingExercises, exerciseId] })
     }
     setExerciseOpen(exerciseId)
   }
 
-  const addSet = (exerciseId, weight, reps) => {
-    const orden =
-      sessionSets.filter((s) => s.exerciseId === exerciseId).length + 1
-    setSets([
-      ...sets,
-      {
+  const addSet = (exerciseId, weight, reps, howMany = 1) => {
+    const already = sessionSets.filter((s) => s.exerciseId === exerciseId).length
+    const n = Math.max(1, Math.min(20, Math.floor(Number(howMany) || 1)))
+    const newSets = []
+    for (let i = 0; i < n; i++) {
+      newSets.push({
         id: uid(),
         sessionId: session.id,
         exerciseId,
-        order: orden,
+        order: already + i + 1,
         weight: Number(weight) || 0,
         reps: Number(reps) || 0,
-      },
-    ])
+      })
+    }
+    setSets([...sets, ...newSets])
+    // Ya no está pendiente, tiene sets
+    if (pendingExercises.includes(exerciseId)) {
+      updateSession({
+        pendingExerciseIds: pendingExercises.filter((id) => id !== exerciseId),
+      })
+    }
   }
 
   const removeSet = (setId) => {
     setSets(sets.filter((s) => s.id !== setId))
-  }
-
-  const updateSession = (patch) => {
-    setSessions(sessions.map((s) => (s.id === session.id ? { ...s, ...patch } : s)))
   }
 
   return (
@@ -461,6 +526,7 @@ function ExerciseBlock({
 
   const [weight, setWeight] = useState(String(defaultWeight))
   const [reps, setReps] = useState(String(defaultReps))
+  const [series, setSeries] = useState('1')
 
   useEffect(() => {
     setWeight(String(defaultWeight))
@@ -518,7 +584,7 @@ function ExerciseBlock({
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             <div>
               <label className="text-xs text-slate-400">Peso (kg)</label>
               <input
@@ -541,16 +607,33 @@ function ExerciseBlock({
                 placeholder="0"
               />
             </div>
+            <div>
+              <label className="text-xs text-slate-400">Series</label>
+              <input
+                type="number"
+                inputMode="numeric"
+                min="1"
+                max="20"
+                value={series}
+                onChange={(e) => setSeries(e.target.value)}
+                className="w-full bg-slate-800 rounded-lg px-3 py-2 text-lg font-semibold"
+                placeholder="1"
+              />
+            </div>
           </div>
 
           <button
             onClick={() => {
               if (!weight && !reps) return
-              onAddSet(weight, reps)
+              const n = Math.max(1, Math.floor(Number(series) || 1))
+              onAddSet(weight, reps, n)
+              setSeries('1')
             }}
             className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-lg"
           >
-            + Agregar set
+            {Number(series) > 1
+              ? `+ Agregar ${Math.floor(Number(series))} series`
+              : '+ Agregar set'}
           </button>
         </div>
       )}
